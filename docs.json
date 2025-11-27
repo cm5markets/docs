@@ -16,7 +16,8 @@
           {
             "group": "Accueil",
             "pages": [
-              "index"
+              "index",
+              "introduction"
             ],
             "group": "Introduction",
             "pages": [
