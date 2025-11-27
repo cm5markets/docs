@@ -19,6 +19,14 @@
               "index"
             ]
           }
+        ],
+        "groups": [
+          {
+            "group": "Introduction",
+            "pages": [
+              "introduction"
+            ]
+          }
         ]
       },
       {
