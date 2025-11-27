@@ -21,7 +21,7 @@
             ]
           },
           {
-            "group": "Accueil",
+            "group": "Services API",
             "pages": [
               "index",
               "introduction"
