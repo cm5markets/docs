@@ -4,8 +4,8 @@
   "name": "CM5Markets API Docs",
   "colors": {
     "primary": "#DA5C2C",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "light": "#DA5C2C",
+    "dark": "#DA5C2C"
   },
   "favicon": "/favicon.svg",
   "navigation": {
