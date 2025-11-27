@@ -1,0 +1,58 @@
+---
+title: "Obtenir votre clé API & Préparer votre environnement"
+description: "Apprenez comment activer votre clé API, comprendre les règles d’utilisation et configurer votre environnement pour commencer à utiliser l’API CM5Markets."
+---
+
+L’API CM5Markets permet d’intégrer vos propres applications, bots de trading, tableaux de bord ou services externes grâce à des requêtes **HTTPS sécurisées**.\
+Elle fonctionne depuis **n’importe quel environnement** capable d’émettre des requêtes HTTP(S) :
+
+- Applications Web
+- Applications mobiles
+- Scripts (Node.js, Python, PHP…)
+- Outils d’automatisation
+
+L’API offre un accès en temps réel à plusieurs données essentielles :
+
+- Solde réel & démo
+- Adresses de dépôt
+- Positions ouvertes
+- Historique des trades
+- Informations de compte
+- Gestion des clés API
+
+👉 **Important : l’API ne permet pas d’effectuer des retraits.**
+
+## 🔑 **Obtention de la clé API**
+
+Les clés API peuvent être générées **depuis l’application mobile CM5Markets** ou **depuis le site web**, dans : **Paramètres → Gestion d’API**
+
+Pour obtenir une clé API :
+
+1. Définir un **nom** pour la clé (ex. : BotPerso, AppCRM…).
+2. (Optionnel) Ajouter une **adresse IP autorisée** pour restreindre l’accès.
+3. Générer la clé → vous recevez :
+   - **Clé API**
+   - **Clé secrète**
+
+Ces deux éléments doivent être conservés en lieu sûr.\
+La clé secrète **n’est affichée qu’une seule fois**.
+
+## **Expiration & Validité**
+
+- Aucune clé n’expire automatiquement.
+- Vous pouvez révoquer une clé à tout moment.
+- Le nombre de clés disponibles dépend du type de compte.
+
+## **Limites d’usage (Rate Limit)**
+
+Les limites d’appels API sont liées au type de compte :
+
+| Type de compte | Clés API disponibles | Limite de requêtes / minute |
+| :------------- | :------------------- | :-------------------------- |
+| **Standard**   | 1 clé                | **10 requêtes / minute**    |
+| **Pro**        | 3 clés               | **50 requêtes / minute**    |
+| **Raw Spread** | 10 clés              | **150 requêtes / minute**   |
+
+👉 Si la limite est dépassée, l’API retournera une erreur `429 – Too Many Requests`.
+
+## Que peut-on faire avec l’API ?
