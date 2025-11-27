@@ -17,11 +17,7 @@
             "group": "Accueil",
             "pages": [
               "index"
-            ]
-          }
-        ],
-        "groups": [
-          {
+            ],
             "group": "Introduction",
             "pages": [
               "introduction"
