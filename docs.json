@@ -28,17 +28,19 @@
             ]
           },
           {
-            "group": "Services API",
+            "group": "Données de Trading",
             "pages": [
-              "Robot",
-              "Solde"
+              "trading-data/open-positions",
+              "trading-data/closed-positions",
+              "trading-data/pending-orders"
             ]
           },
           {
-            "group": "Services API",
+            "group": "Automatisation & Exécution",
             "pages": [
-              "Robot",
-              "Solde"
+              "automation-execution/open-position",
+              "automation-execution/close-position",
+              "automation-execution/modify-position"
             ]
           }
         ]
