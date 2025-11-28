@@ -68,12 +68,7 @@
       }
     ]
   },
-  "contextual": {
-    "options": [
-     "chatgpt",
-     "claude"
-   ]
-  },
+  
   "footer": {
     "socials": {
       "x": "https://x.com/CM5Markets",
