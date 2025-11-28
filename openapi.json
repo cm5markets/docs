@@ -1,0 +1,156 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "CM5Markets Trading API",
+    "description": "API de trading pour le courtier CM5Markets",
+    "version": "3.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.cm5-markets.com/v3"
+    }
+  ],
+  "paths": {
+    "/balance": {
+      "post": {
+        "summary": "Obtenir le solde",
+        "operationId": "getBalance",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["api-key", "api-secret", "object", "get"],
+                "properties": {
+                  "api-key": {"type": "string"},
+                  "api-secret": {"type": "string"},
+                  "object": {"type": "string"},
+                  "get": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Success"}
+        }
+      }
+    },
+    "/trade-open": {
+      "post": {
+        "summary": "Trades ouverts",
+        "operationId": "getTradeOpen",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["api-key", "api-secret", "object", "limit", "type"],
+                "properties": {
+                  "api-key": {"type": "string"},
+                  "api-secret": {"type": "string"},
+                  "object": {"type": "string"},
+                  "limit": {"type": "string"},
+                  "type": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Success"}
+        }
+      }
+    },
+    "/pending-orders": {
+      "post": {
+        "summary": "Ordres en attente",
+        "operationId": "getPendingOrders",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["api-key", "api-secret", "object", "limit", "type"],
+                "properties": {
+                  "api-key": {"type": "string"},
+                  "api-secret": {"type": "string"},
+                  "object": {"type": "string"},
+                  "limit": {"type": "string"},
+                  "type": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Success"}
+        }
+      }
+    },
+    "/trade-history": {
+      "post": {
+        "summary": "Historique des trades",
+        "operationId": "getTradeHistory",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["api-key", "api-secret", "object", "limit", "type"],
+                "properties": {
+                  "api-key": {"type": "string"},
+                  "api-secret": {"type": "string"},
+                  "object": {"type": "string"},
+                  "limit": {"type": "string"},
+                  "type": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Success"}
+        }
+      }
+    },
+    "/algorithme": {
+      "post": {
+        "summary": "Gestion algorithmique",
+        "operationId": "algorithme",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["api-key", "api-secret", "object"],
+                "properties": {
+                  "api-key": {"type": "string"},
+                  "api-secret": {"type": "string"},
+                  "object": {"type": "string"},
+                  "type-close": {"type": "string"},
+                  "type": {"type": "string"},
+                  "lot": {"type": "number"},
+                  "mode": {"type": "string"},
+                  "symbol": {"type": "string"},
+                  "prix": {"type": "number"},
+                  "tp": {"type": "number"},
+                  "sl": {"type": "number"},
+                  "id": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Success"}
+        }
+      }
+    }
+  }
+}

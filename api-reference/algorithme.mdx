@@ -1,0 +1,147 @@
+---
+title: "Gestion algorithmique"
+description: "Ouvrir, modifier ou fermer des positions de trading"
+---
+
+API : POST https://api.cm5-markets.com/v3/algorithme
+
+<RequestExample>
+
+```json json Fermer les perdants
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "close-advanced",
+  "type-close": "perte"
+}
+```
+
+</RequestExample>
+
+<RequestExample>
+
+```json json Fermer les gagnants
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "close-advanced",
+  "type-close": "profit"
+}
+```
+
+</RequestExample>
+
+<RequestExample>
+
+````json json Fermer tout
+<RequestExample>
+```json Fermer les perdants
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "close-advanced",
+  "type-close": "perte"
+}
+```
+```json Fermer les gagnants
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "close-advanced",
+  "type-close": "profit"
+}
+```
+```json Fermer tout
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "close-advanced",
+  "type-close": "all"
+}
+```
+```json Buy Market
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "activation",
+  "type": "Réel",
+  "lot": 0.1,
+  "mode": "Buy",
+  "symbol": "EURUSD",
+  "tp": 1.0850,
+  "sl": 1.0750
+}
+```
+```json Sell Market
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "activation",
+  "type": "Réel",
+  "lot": 0.1,
+  "mode": "Sell",
+  "symbol": "EURUSD",
+  "tp": 1.0750,
+  "sl": 1.0850
+}
+```
+```json Buy Limit
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "activation",
+  "type": "Réel",
+  "lot": 0.2,
+  "mode": "Buy Limit",
+  "symbol": "USDJPY",
+  "prix": 142.50,
+  "tp": 143.50,
+  "sl": 141.50
+}
+```
+```json Sell Stop
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "activation",
+  "type": "Démo",
+  "lot": 0.5,
+  "mode": "Sell Stop",
+  "symbol": "GBPUSD",
+  "prix": 1.2650,
+  "tp": 0,
+  "sl": 0
+}
+```
+```json Modifier TP et SL
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "update",
+  "id": "12345678",
+  "tp": 1.0900,
+  "sl": 1.0700
+}
+```
+```json Modifier TP uniquement
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "update",
+  "id": "12345678",
+  "tp": 1.0900
+}
+```
+```json Modifier SL uniquement
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "update",
+  "id": "12345678",
+  "sl": 1.0700
+}
+```
+</RequestExample>
+````
+
+</RequestExample>
