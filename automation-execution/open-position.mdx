@@ -1,0 +1,185 @@
+---
+title: "Ouvrir une position"
+description: "Découvrez comment gérer automatiquement vos positions de trading via notre API dédiée aux algorithmes."
+---
+
+Notre API algorithme permet de créer, fermer et modifier des positions de trading automatiquement. Vous pouvez ainsi développer vos propres stratégies de trading et les exécuter via des requêtes API. L'endpoint principal vous permet de réaliser trois actions essentielles : ouvrir une position (`activation`), fermer une position (`close`) ou modifier une position existante (`update`).
+
+### **Endpoint de la requête**
+
+Envoyez uniquement une requête POST au format JSON à l'URL suivante :
+
+```bash Endpoint de la requête
+https://api.cm5-markets.com/v3/algorithme
+```
+
+## **1. Activer une position de trading**
+
+Cette action vous permet d'ouvrir une nouvelle position de trading en spécifiant les paramètres nécessaires selon le mode d'exécution choisi.
+
+### **Modes d'exécution disponibles**
+
+<CodeGroup>
+
+```Exécution au marché
+Exécute immédiatement un ordre d'achat ou de vente au prix actuel du marché. Nécessite de spécifier le symbole, mais pas le prix.
+```
+
+
+```Buy Limit
+Place un ordre d'achat à un prix inférieur au prix actuel du marché. L'ordre sera exécuté uniquement si le prix descend au niveau spécifié.
+```
+
+
+```Sell Limit
+Place un ordre de vente à un prix supérieur au prix actuel du marché. L'ordre sera exécuté uniquement si le prix monte au niveau spécifié.
+```
+
+
+```Buy Stop
+Place un ordre d'achat à un prix supérieur au prix actuel du marché. L'ordre sera exécuté uniquement si le prix monte au niveau spécifié.
+```
+
+
+```Sell Stop
+Place un ordre de vente à un prix inférieur au prix actuel du marché. L'ordre sera exécuté uniquement si le prix descend au niveau spécifié.
+```
+
+</CodeGroup>
+
+```json Exemple 1: Buy ou Sell - Exécution au marché
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "activation",
+  "type": "Réel",
+  "lot": 0.1,
+  "mode": "Buy ou Sell",
+  "symbol": "EURUSD",
+  "tp": 1.0850,
+  "sl": 1.0750
+}
+```
+
+```json Exemple 2: Ordre Buy Limit
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "activation",
+  "type": "Réel",
+  "lot": 0.2,
+  "mode": "Buy Limit",
+  "symbol": "USDJPY",
+  "prix": 142.50,
+  "tp": 143.50,
+  "sl": 141.50
+}
+```
+
+```json Exemple 3: Ordre Sell Stop sans TP/SL
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "activation",
+  "type": "Démo",
+  "lot": 0.5,
+  "mode": "Sell Stop",
+  "symbol": "GBPUSD",
+  "prix": 1.2650,
+  "tp": 0,
+  "sl": 0
+}
+```
+
+> Les paramètres tp et sl peuvent être définis à 0 si vous ne souhaitez pas configurer de take profit ou stop loss.
+
+<Check>
+  Réponse d'activation réussie
+</Check>
+
+```json Réponse
+{
+  "status": "success",
+  "data": {
+    "message": "Position ouverte avec succès",
+    "trade_id": "12345678",
+    "symbol": "EURUSD",
+    "mode": "Exécution au marché",
+    "lot": 0.1,
+    "open_price": 1.0785
+  }
+}
+```
+
+---
+
+## **Explication des champs :**
+
+`"api-key"` et `"api-secret"` : vos clés d'authentification fournies par la plateforme.
+
+`"object"` : définit l'action à effectuer ("activation", "close" ou "update").
+
+`"type"` : type de compte ("Réel" ou "Démo") - requis uniquement pour l'activation.
+
+`"lot"` : taille de la position - requis uniquement pour l'activation.
+
+> `"mode"` : mode d'exécution ("Buy ou Sell", "Buy Limit", "Sell Limit", "Buy Stop", "Sell Stop").
+
+`"symbol"` : l'instrument financier sur lequel trader.
+
+`"prix"` : niveau de prix pour les ordres limites et stops.
+
+`"tp"` : niveau de Take Profit (0 pour désactiver).
+
+`"sl"` : niveau de Stop Loss (0 pour désactiver).
+
+## **Instruments disponibles :**
+
+Voici la liste des symboles financiers disponibles sur notre plateforme :
+
+## **Exemple de code complet (PHP cURL)**
+
+```php Exemple d'activation d'une position (PHP)
+<?php
+$endpoint = 'https://api.cm5-markets.com/v3/algorithme';
+
+// Exemple d'ouverture d'une position
+$payload = [
+  'api-key'    => 'votre_cle_api_ici',
+  'api-secret' => 'votre_cle_secrete_ici',
+  'object'     => 'activation',
+  'type'       => 'Réel',
+  'lot'        => 0.1,
+  'mode'       => 'Buy ou Sell',
+  'symbol'     => 'EURUSD',
+  'tp'         => 1.0850,
+  'sl'         => 1.0750
+];
+
+$ch = curl_init($endpoint);
+curl_setopt_array($ch, [
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_POST           => true,
+  CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+  CURLOPT_POSTFIELDS     => json_encode($payload, JSON_UNESCAPED_UNICODE),
+  CURLOPT_TIMEOUT        => 20,
+]);
+
+$response = curl_exec($ch);
+if ($response === false) {
+  $error = curl_error($ch);
+  curl_close($ch);
+  die('Erreur cURL: ' . $error);
+}
+$http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+// Traiter la réponse
+$result = json_decode($response, true);
+if (isset($result['status']) && $result['status'] === 'success') {
+  echo "Position ouverte avec succès! ID: " . $result['data']['trade_id'];
+} else {
+  echo "Erreur: " . ($result['message'] ?? "Erreur inconnue");
+}
+?>
+```
