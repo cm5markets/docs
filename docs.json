@@ -76,6 +76,12 @@
       ]
     }
   },
+  "contextual": {
+    "options": [
+     "chatgpt",
+     "claude"
+   ]
+  },
   "logo": {
     "light": "logo/light.svg",
     "dark": "logo/dark.svg"
