@@ -1,0 +1,130 @@
+---
+title: "Modifier une position"
+sidebarTitle: "Modify position"
+description: "Découvrez comment gérer automatiquement vos positions de trading via notre API dédiée aux algorithmes.
+
+Notre API algorithme permet de créer, fermer et modifier des positions de trading automatiquement. Vous pouvez ainsi développer vos propres stratégies de trading et les exécuter via des requêtes API. L'endpoint principal vous permet de réaliser trois actions essentielles : ouvrir une position (activation), fermer une position (close) ou modifier une position existante (update)."
+---
+
+### **Endpoint de la requête**
+
+Envoyez uniquement une requête POST au format JSON à l'URL suivante :
+
+```bash Endpoint de la requête
+https://api.cm5-markets.com/v3/algorithme
+```
+
+## **Modifier une position existante**
+
+Cette action vous permet de modifier les paramètres TP et/ou SL d'une position existante.
+
+## Exemple 1: Mise à jour du TP et SL
+
+```json Exemple 1: Mise à jour du TP et SL d'une position
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "update",
+  "id": "12345678",
+  "tp": 1.0900,
+  "sl": 1.0700
+}
+```
+
+## Exemple 2: Mise à jour du TP uniquement
+
+```json Exemple 2: Mise à jour du TP uniquement
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "update",
+  "id": "12345678",
+  "tp": 1.0900
+}
+```
+
+## Exemple 3: Mise à jour du SL uniquement
+
+```json Exemple 3: Mise à jour du SL uniquement
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "update",
+  "id": "12345678",
+  "sl": 1.0700
+}
+```
+
+<Check>
+  Réponse de mise à jour réussie
+</Check>
+
+```json Réponse de mise à jour réussie
+{
+  "status": "success",
+  "data": {
+    "message": "Position mise à jour avec succès",
+    "trade_id": "12345678",
+  }
+}
+```
+
+---
+
+## **Explication des champs :**
+
+`"api-key"` et "api-secret" : vos clés d'authentification fournies par la plateforme.
+
+`"object"` : définit l'action à effectuer ("activation", "close" ou "update").
+
+`"type"` : type de compte ("Réel" ou "Démo") - requis uniquement pour l'activation.
+
+`"id"` : identifiant de la position pour les opérations "close" et "update".
+
+`"tp"` : niveau de Take Profit (0 pour désactiver).
+
+`"sl"` : niveau de Stop Loss (0 pour désactiver).
+
+## **Exemple de code complet (PHP cURL)**
+
+```php Exemple d'activation d'une position (PHP)
+<?php
+$endpoint = 'https://api.cm5-markets.com/v3/algorithme';
+
+// Exemple d'ouverture d'une position
+$payload = [
+  'api-key'    => 'votre_cle_api_ici',
+  'api-secret' => 'votre_cle_secrete_ici',
+  'object'     => 'update',
+  'id'       => '12345678',
+  'tp'         => 1.0850,
+  'sl'         => 1.0750
+];
+
+$ch = curl_init($endpoint);
+curl_setopt_array($ch, [
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_POST           => true,
+  CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+  CURLOPT_POSTFIELDS     => json_encode($payload, JSON_UNESCAPED_UNICODE),
+  CURLOPT_TIMEOUT        => 20,
+]);
+
+$response = curl_exec($ch);
+if ($response === false) {
+  $error = curl_error($ch);
+  curl_close($ch);
+  die('Erreur cURL: ' . $error);
+}
+$http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+// Traiter la réponse
+$result = json_decode($response, true);
+if (isset($result['status']) && $result['status'] === 'success') {
+  echo "Position ouverte avec succès! ID: " . $result['data']['trade_id'];
+} else {
+  echo "Erreur: " . ($result['message'] ?? "Erreur inconnue");
+}
+?>
+```
