@@ -1,0 +1,123 @@
+---
+sidebarTitle: "Closed positions"
+title: "Positions fermées"
+description: "Découvrez comment consulter l'historique de vos trades clôturés sur votre compte réel ou de démonstration."
+---
+
+Pour obtenir l'historique de vos trades fermés, une simple requête suffit. Assurez‑vous d'abord de disposer d'une clé API et d'une clé secrète valides et actives sur votre compte. Copiez ces clés, puis envoyez une requête POST au format JSON contenant ces informations, comme indiqué ci‑dessous. Vous pouvez récupérer un nombre spécifique de trades ou définir une période précise.
+
+### **Endpoint de la requête**
+
+Envoyez uniquement une requête POST au format JSON à l'URL suivante :
+
+``` Endpoint de la requête
+https://api.cm5-markets.com/v3/trade-history
+```
+
+```json Exemple 1: Récupérer un nombre précis de trades
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "trade",
+  "limit": "100",
+  "type": "Réel"
+}
+```
+
+```json Exemple 2: Récupérer les trades d'une période précise
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "trade",
+  "limit": "01/09/2025 - 17/09/2025", 
+  "type": "Démo"
+}
+```
+
+## **Explication des champs :**
+
+`"api-key"` : votre clé API publique, fournie par la plateforme.
+
+`"api-secret"` : votre clé secrète, associée à votre compte.
+
+`"object"` : le type de ressource que vous voulez interroger (ici, "trade").
+
+`"limit"` : soit un nombre (jusqu'à 500 max) pour récupérer les N trades les plus récents, soit une plage de dates au format "JJ/MM/AAAA - JJ/MM/AAAA" pour récupérer les trades dans cette période (maximum 500 résultats).
+
+`"type"` : le type de compte à consulter (`"Réel" ou "Démo"`).
+
+---
+
+## **Réponse attendue :**
+
+Vous recevrez une réponse au format JSON contenant la liste des trades correspondant à vos critères, avec leurs détails complets incluant les prix d'ouverture et de fermeture, le profit réalisé, etc.
+
+```json Exemple de réponse JSON (plusieurs trades)
+{
+  "status": "success",
+  "data": {
+    "trades": [
+      {
+        "id": "12345678",
+        "name": "EURUSD",
+        "type": "buy",
+        "lot": 0.1,
+        "open_price": 1.0785,
+        "close_price": 1.0805,
+        "profit": 20.00,
+        "margin": 107.85,
+        "open_time": "2025-09-14 10:45:32",
+        "close_time": "2025-09-16 14:32:18"
+      },
+      {
+        "id": "12345679",
+        "name": "USDJPY",
+        "type": "sell",
+        "lot": 0.2,
+        "open_price": 142.50,
+        "close_price": 142.10,
+        "profit": 56.18,
+        "margin": 285.00,
+        "open_time": "2025-09-15 15:32:10",
+        "close_time": "2025-09-17 09:45:23"
+      }
+    ]
+  }
+}
+```
+
+```php Exemple de code complet (PHP cURL)
+<?php
+$endpoint = 'https://api.cm5-markets.com/v3/trade-history';
+
+$payload = [
+  'api-key'    => 'votre_cle_api_ici',
+  'api-secret' => 'votre_cle_secrete_ici',
+  'object'     => 'trade',
+  'limit'      => '100', // Nombre de trades récents ou plage "01/09/2025 - 17/09/2025"
+  'type'       => 'Réel', // "Réel" ou "Démo"
+];
+
+$ch = curl_init($endpoint);
+curl_setopt_array($ch, [
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_POST           => true,
+  CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+  CURLOPT_POSTFIELDS     => json_encode($payload, JSON_UNESCAPED_UNICODE),
+  CURLOPT_TIMEOUT        => 20,
+]);
+
+$response = curl_exec($ch);
+if ($response === false) {
+  $error = curl_error($ch);
+  curl_close($ch);
+  die('Erreur cURL: ' . $error);
+}
+$http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+// Affiche la réponse JSON renvoyée par l'API
+header('Content-Type: application/json; charset=utf-8');
+echo $response;
+?>
+```
