@@ -26,6 +26,13 @@
               "Robot",
               "Solde"
             ]
+          },
+          {
+            "group": "Services API",
+            "pages": [
+              "Robot",
+              "Solde"
+            ]
           }
         ]
       },
