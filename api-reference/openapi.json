@@ -1,45 +1,37 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "CM5Markets API",
+    "title": "CM5Markets Trading API",
     "description": "API de trading pour le courtier CM5Markets. Toutes les requêtes utilisent la méthode POST avec authentification par clés API.",
-    "version": "3.0.0",
-    "contact": {
-      "name": "CM5Markets Support",
-      "url": "https://cm5-markets.com"
-    }
+    "license": {
+      "name": "MIT"
+    },
+    "version": "3.0.0"
   },
   "servers": [
     {
-      "url": "https://api.cm5-markets.com/v3",
-      "description": "Serveur de production CM5Markets"
+      "url": "https://api.cm5-markets.com/v3"
+    }
+  ],
+  "security": [
+    {
+      "apiKeyAuth": []
     }
   ],
   "paths": {
     "/balance": {
       "post": {
-        "summary": "Obtenir le solde du compte",
         "description": "Récupère le solde de votre compte de trading (Réel ou Démo)",
         "requestBody": {
-          "required": true,
+          "description": "Requête pour obtenir le solde",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/BalanceRequest"
-              },
-              "examples": {
-                "getAllBalances": {
-                  "summary": "Obtenir tous les soldes",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "solde",
-                    "get": "All"
-                  }
-                }
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -57,17 +49,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Authentification échouée",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -77,39 +59,17 @@
     },
     "/trade-open": {
       "post": {
-        "summary": "Obtenir les trades ouverts",
         "description": "Récupère l'historique des trades actuellement ouverts",
         "requestBody": {
-          "required": true,
+          "description": "Requête pour obtenir les trades ouverts",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TradeOpenRequest"
-              },
-              "examples": {
-                "realAccount": {
-                  "summary": "Trades réels",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "trade",
-                    "limit": "All",
-                    "type": "Réel"
-                  }
-                },
-                "demoAccount": {
-                  "summary": "Trades démo",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "trade",
-                    "limit": "All",
-                    "type": "Démo"
-                  }
-                }
+                "$ref": "#/components/schemas/TradeRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -127,7 +87,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -137,39 +97,17 @@
     },
     "/pending-orders": {
       "post": {
-        "summary": "Obtenir les ordres en attente",
         "description": "Récupère la liste des ordres en attente d'exécution",
         "requestBody": {
-          "required": true,
+          "description": "Requête pour obtenir les ordres en attente",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PendingOrdersRequest"
-              },
-              "examples": {
-                "allRealOrders": {
-                  "summary": "Tous les ordres réels",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "order",
-                    "limit": "All",
-                    "type": "Réel"
-                  }
-                },
-                "allDemoOrders": {
-                  "summary": "Tous les ordres démo",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "order",
-                    "limit": "All",
-                    "type": "Démo"
-                  }
-                }
+                "$ref": "#/components/schemas/OrderRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -187,7 +125,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -197,39 +135,17 @@
     },
     "/trade-history": {
       "post": {
-        "summary": "Obtenir l'historique des trades",
         "description": "Récupère l'historique complet des trades fermés avec possibilité de filtrer par nombre ou par période",
         "requestBody": {
-          "required": true,
+          "description": "Requête pour obtenir l'historique des trades",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/TradeHistoryRequest"
-              },
-              "examples": {
-                "last100Real": {
-                  "summary": "100 derniers trades réels",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "trade",
-                    "limit": "100",
-                    "type": "Réel"
-                  }
-                },
-                "dateRangeDemo": {
-                  "summary": "Période spécifique (Démo)",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "trade",
-                    "limit": "01/09/2025 - 17/09/2025",
-                    "type": "Démo"
-                  }
-                }
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -247,7 +163,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -257,145 +173,17 @@
     },
     "/algorithme": {
       "post": {
-        "summary": "Gestion algorithmique des positions",
-        "description": "Permet d'ouvrir, modifier ou fermer des positions de trading de manière algorithmique",
+        "description": "Permet d'ouvrir, modifier ou fermer des positions de trading de manière algorithmique. Supporte trois types d'opérations: close-advanced (fermeture), activation (ouverture), update (modification)",
         "requestBody": {
-          "required": true,
+          "description": "Requête pour gérer les positions",
           "content": {
             "application/json": {
               "schema": {
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/CloseAdvancedRequest"
-                  },
-                  {
-                    "$ref": "#/components/schemas/ActivationRequest"
-                  },
-                  {
-                    "$ref": "#/components/schemas/UpdateRequest"
-                  }
-                ]
-              },
-              "examples": {
-                "closeLosers": {
-                  "summary": "Fermer tous les perdants",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "close-advanced",
-                    "type-close": "perte"
-                  }
-                },
-                "closeWinners": {
-                  "summary": "Fermer tous les gagnants",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "close-advanced",
-                    "type-close": "profit"
-                  }
-                },
-                "closeAll": {
-                  "summary": "Fermer toutes les positions",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "close-advanced",
-                    "type-close": "all"
-                  }
-                },
-                "buyMarket": {
-                  "summary": "Achat au marché (Buy)",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "activation",
-                    "type": "Réel",
-                    "lot": 0.1,
-                    "mode": "Buy",
-                    "symbol": "EURUSD",
-                    "tp": 1.085,
-                    "sl": 1.075
-                  }
-                },
-                "sellMarket": {
-                  "summary": "Vente au marché (Sell)",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "activation",
-                    "type": "Réel",
-                    "lot": 0.1,
-                    "mode": "Sell",
-                    "symbol": "EURUSD",
-                    "tp": 1.075,
-                    "sl": 1.085
-                  }
-                },
-                "buyLimit": {
-                  "summary": "Ordre Buy Limit",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "activation",
-                    "type": "Réel",
-                    "lot": 0.2,
-                    "mode": "Buy Limit",
-                    "symbol": "USDJPY",
-                    "prix": 142.5,
-                    "tp": 143.5,
-                    "sl": 141.5
-                  }
-                },
-                "sellStop": {
-                  "summary": "Ordre Sell Stop",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "activation",
-                    "type": "Démo",
-                    "lot": 0.5,
-                    "mode": "Sell Stop",
-                    "symbol": "GBPUSD",
-                    "prix": 1.265,
-                    "tp": 0,
-                    "sl": 0
-                  }
-                },
-                "updateBoth": {
-                  "summary": "Modifier TP et SL",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "update",
-                    "id": "12345678",
-                    "tp": 1.09,
-                    "sl": 1.07
-                  }
-                },
-                "updateTPOnly": {
-                  "summary": "Modifier uniquement le TP",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "update",
-                    "id": "12345678",
-                    "tp": 1.09
-                  }
-                },
-                "updateSLOnly": {
-                  "summary": "Modifier uniquement le SL",
-                  "value": {
-                    "api-key": "votre_cle_api_ici",
-                    "api-secret": "votre_cle_secrete_ici",
-                    "object": "update",
-                    "id": "12345678",
-                    "sl": 1.07
-                  }
-                }
+                "$ref": "#/components/schemas/AlgorithmeRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -413,7 +201,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -425,227 +213,187 @@
   "components": {
     "schemas": {
       "BalanceRequest": {
+        "required": [
+          "api-key",
+          "api-secret",
+          "object",
+          "get"
+        ],
         "type": "object",
-        "required": ["api-key", "api-secret", "object", "get"],
         "properties": {
           "api-key": {
-            "type": "string",
-            "description": "Votre clé API CM5Markets"
+            "description": "Votre clé API CM5Markets",
+            "type": "string"
           },
           "api-secret": {
-            "type": "string",
-            "description": "Votre clé secrète API CM5Markets"
+            "description": "Votre clé secrète API CM5Markets",
+            "type": "string"
           },
           "object": {
-            "type": "string",
-            "enum": ["solde"],
-            "description": "Type d'objet demandé"
+            "description": "Type d'objet demandé",
+            "type": "string"
           },
           "get": {
-            "type": "string",
-            "enum": ["All"],
-            "description": "Récupérer tous les soldes"
+            "description": "Récupérer tous les soldes",
+            "type": "string"
           }
         }
       },
-      "TradeOpenRequest": {
+      "TradeRequest": {
+        "required": [
+          "api-key",
+          "api-secret",
+          "object",
+          "limit",
+          "type"
+        ],
         "type": "object",
-        "required": ["api-key", "api-secret", "object", "limit", "type"],
         "properties": {
           "api-key": {
-            "type": "string",
-            "description": "Votre clé API CM5Markets"
+            "description": "Votre clé API CM5Markets",
+            "type": "string"
           },
           "api-secret": {
-            "type": "string",
-            "description": "Votre clé secrète API CM5Markets"
+            "description": "Votre clé secrète API CM5Markets",
+            "type": "string"
           },
           "object": {
-            "type": "string",
-            "enum": ["trade"],
-            "description": "Type d'objet demandé"
+            "description": "Type d'objet demandé",
+            "type": "string"
           },
           "limit": {
-            "type": "string",
             "description": "Limite de résultats (All ou un nombre)",
-            "default": "All"
+            "type": "string"
           },
           "type": {
-            "type": "string",
-            "enum": ["Réel", "Démo"],
-            "description": "Type de compte"
+            "description": "Type de compte (Réel ou Démo)",
+            "type": "string"
           }
         }
       },
-      "PendingOrdersRequest": {
+      "OrderRequest": {
+        "required": [
+          "api-key",
+          "api-secret",
+          "object",
+          "limit",
+          "type"
+        ],
         "type": "object",
-        "required": ["api-key", "api-secret", "object", "limit", "type"],
         "properties": {
           "api-key": {
-            "type": "string",
-            "description": "Votre clé API CM5Markets"
+            "description": "Votre clé API CM5Markets",
+            "type": "string"
           },
           "api-secret": {
-            "type": "string",
-            "description": "Votre clé secrète API CM5Markets"
+            "description": "Votre clé secrète API CM5Markets",
+            "type": "string"
           },
           "object": {
-            "type": "string",
-            "enum": ["order"],
-            "description": "Type d'objet demandé"
+            "description": "Type d'objet demandé",
+            "type": "string"
           },
           "limit": {
-            "type": "string",
             "description": "Limite de résultats (All ou un nombre)",
-            "default": "All"
+            "type": "string"
           },
           "type": {
-            "type": "string",
-            "enum": ["Réel", "Démo"],
-            "description": "Type de compte"
+            "description": "Type de compte (Réel ou Démo)",
+            "type": "string"
           }
         }
       },
       "TradeHistoryRequest": {
+        "required": [
+          "api-key",
+          "api-secret",
+          "object",
+          "limit",
+          "type"
+        ],
         "type": "object",
-        "required": ["api-key", "api-secret", "object", "limit", "type"],
         "properties": {
           "api-key": {
-            "type": "string",
-            "description": "Votre clé API CM5Markets"
+            "description": "Votre clé API CM5Markets",
+            "type": "string"
           },
           "api-secret": {
-            "type": "string",
-            "description": "Votre clé secrète API CM5Markets"
+            "description": "Votre clé secrète API CM5Markets",
+            "type": "string"
           },
           "object": {
-            "type": "string",
-            "enum": ["trade"],
-            "description": "Type d'objet demandé"
+            "description": "Type d'objet demandé",
+            "type": "string"
           },
           "limit": {
-            "type": "string",
-            "description": "Nombre de trades ou période (ex: '100' ou '01/09/2025 - 17/09/2025')"
+            "description": "Nombre de trades ou période (ex: 100 ou 01/09/2025 - 17/09/2025)",
+            "type": "string"
           },
           "type": {
-            "type": "string",
-            "enum": ["Réel", "Démo"],
-            "description": "Type de compte"
+            "description": "Type de compte (Réel ou Démo)",
+            "type": "string"
           }
         }
       },
-      "CloseAdvancedRequest": {
+      "AlgorithmeRequest": {
+        "required": [
+          "api-key",
+          "api-secret",
+          "object"
+        ],
         "type": "object",
-        "required": ["api-key", "api-secret", "object", "type-close"],
         "properties": {
           "api-key": {
-            "type": "string",
-            "description": "Votre clé API CM5Markets"
+            "description": "Votre clé API CM5Markets",
+            "type": "string"
           },
           "api-secret": {
-            "type": "string",
-            "description": "Votre clé secrète API CM5Markets"
+            "description": "Votre clé secrète API CM5Markets",
+            "type": "string"
           },
           "object": {
-            "type": "string",
-            "enum": ["close-advanced"],
-            "description": "Action de fermeture avancée"
+            "description": "Action à effectuer: close-advanced (fermer), activation (ouvrir), update (modifier)",
+            "type": "string"
           },
           "type-close": {
-            "type": "string",
-            "enum": ["perte", "profit", "all"],
-            "description": "Type de fermeture: perte (perdants), profit (gagnants), all (toutes)"
-          }
-        }
-      },
-      "ActivationRequest": {
-        "type": "object",
-        "required": ["api-key", "api-secret", "object", "type", "lot", "mode", "symbol"],
-        "properties": {
-          "api-key": {
-            "type": "string",
-            "description": "Votre clé API CM5Markets"
-          },
-          "api-secret": {
-            "type": "string",
-            "description": "Votre clé secrète API CM5Markets"
-          },
-          "object": {
-            "type": "string",
-            "enum": ["activation"],
-            "description": "Action d'activation d'une position"
+            "description": "Pour close-advanced: perte (perdants), profit (gagnants), all (toutes)",
+            "type": "string"
           },
           "type": {
-            "type": "string",
-            "enum": ["Réel", "Démo"],
-            "description": "Type de compte"
+            "description": "Pour activation: Type de compte (Réel ou Démo)",
+            "type": "string"
           },
           "lot": {
+            "description": "Pour activation: Taille de la position en lots",
             "type": "number",
-            "format": "float",
-            "description": "Taille de la position en lots",
-            "example": 0.1
+            "format": "float"
           },
           "mode": {
-            "type": "string",
-            "enum": ["Buy", "Sell", "Buy Limit", "Sell Limit", "Buy Stop", "Sell Stop"],
-            "description": "Mode d'exécution de l'ordre"
+            "description": "Pour activation: Mode d'exécution (Buy, Sell, Buy Limit, Sell Limit, Buy Stop, Sell Stop)",
+            "type": "string"
           },
           "symbol": {
-            "type": "string",
-            "description": "Symbole de trading (ex: EURUSD, USDJPY)",
-            "example": "EURUSD"
+            "description": "Pour activation: Symbole de trading (ex: EURUSD, USDJPY)",
+            "type": "string"
           },
           "prix": {
+            "description": "Pour activation: Prix d'entrée (requis pour ordres Limit et Stop)",
             "type": "number",
-            "format": "float",
-            "description": "Prix d'entrée (requis pour les ordres Limit et Stop)"
+            "format": "float"
           },
           "tp": {
-            "type": "number",
-            "format": "float",
             "description": "Take Profit (0 pour aucun TP)",
-            "default": 0
+            "type": "number",
+            "format": "float"
           },
           "sl": {
-            "type": "number",
-            "format": "float",
             "description": "Stop Loss (0 pour aucun SL)",
-            "default": 0
-          }
-        }
-      },
-      "UpdateRequest": {
-        "type": "object",
-        "required": ["api-key", "api-secret", "object", "id"],
-        "properties": {
-          "api-key": {
-            "type": "string",
-            "description": "Votre clé API CM5Markets"
-          },
-          "api-secret": {
-            "type": "string",
-            "description": "Votre clé secrète API CM5Markets"
-          },
-          "object": {
-            "type": "string",
-            "enum": ["update"],
-            "description": "Action de modification"
+            "type": "number",
+            "format": "float"
           },
           "id": {
-            "type": "string",
-            "description": "ID de la position à modifier",
-            "example": "12345678"
-          },
-          "tp": {
-            "type": "number",
-            "format": "float",
-            "description": "Nouveau Take Profit (optionnel)"
-          },
-          "sl": {
-            "type": "number",
-            "format": "float",
-            "description": "Nouveau Stop Loss (optionnel)"
+            "description": "Pour update: ID de la position à modifier",
+            "type": "string"
           }
         }
       },
@@ -653,44 +401,37 @@
         "type": "object",
         "properties": {
           "success": {
-            "type": "boolean",
-            "example": true
+            "type": "boolean"
           },
           "data": {
-            "type": "object",
-            "description": "Données retournées par l'API"
+            "type": "object"
           },
           "message": {
-            "type": "string",
-            "description": "Message de succès"
+            "type": "string"
           }
         }
       },
-      "ErrorResponse": {
+      "Error": {
+        "required": [
+          "error",
+          "message"
+        ],
         "type": "object",
-        "required": ["error", "message"],
         "properties": {
           "error": {
-            "type": "boolean",
-            "example": true
+            "type": "integer",
+            "format": "int32"
           },
           "message": {
-            "type": "string",
-            "description": "Description de l'erreur"
-          },
-          "code": {
-            "type": "integer",
-            "description": "Code d'erreur"
+            "type": "string"
           }
         }
       }
     },
     "securitySchemes": {
-      "ApiKeyAuth": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "api-key",
-        "description": "Clé API fournie dans le corps de la requête JSON"
+      "apiKeyAuth": {
+        "type": "http",
+        "scheme": "bearer"
       }
     }
   }
