@@ -1,0 +1,147 @@
+---
+title: "Positions en cours"
+sidebarTitle: "Open positions"
+description: "Découvrez comment consulter vos trades en cours sur votre compte réel ou de démonstration."
+---
+
+Pour obtenir la liste de vos trades en cours, une simple requête suffit. Assurez‑vous d'abord de disposer d'une clé API et d'une clé secrète valides et actives sur votre compte. Copiez ces clés, puis envoyez une requête POST au format JSON contenant ces informations, comme indiqué ci‑dessous. Vous pouvez consulter tous vos trades en cours ou un trade spécifique en précisant son ID.
+
+### **Endpoint de la requête**
+
+Envoyez uniquement une requête POST au format JSON à l'URL suivante :
+
+``` Endpoint de la requête
+https://api.cm5-markets.com/v3/trade-open
+```
+
+```json Exemple de payload JSON (tous les trades)
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "trade",
+  "limit": "All",
+  "type": "Réel"
+}
+```
+
+```json Exemple pour un trade spécifique
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "trade",
+  "limit": "12345678", 
+  "type": "Démo"
+}
+```
+
+## **Explication des champs :**
+
+`"api-key"` : votre clé API publique, fournie par la plateforme.
+
+`"api-secret"` : votre clé secrète, associée à votre compte.
+
+`"object"` : le type de ressource que vous voulez interroger (ici, "trade").
+
+`"limit"` : "All" pour récupérer tous vos trades en cours, ou un ID spécifique pour consulter un seul trade.
+
+`"type"` : le type de compte à consulter (**"Réel" ou "Démo"**).
+
+---
+
+## **Réponse attendue :**
+
+Vous recevrez une réponse au format JSON contenant la liste de tous vos trades en cours ou les détails d'un trade spécifique selon les paramètres fournis.
+
+```php Exemple de réponse JSON (plusieurs trades)
+{
+  "status": "success",
+  "data": {
+    "trades": [
+      {
+        "id": "12345678",
+        "name": "EURUSD",
+        "type": "buy",
+        "lot": 0.1,
+        "open_price": 1.0785,
+        "current_price": 1.0805,
+        "profit": 20.00,
+        "margin": 107.85,
+        "tp": 1.0850,
+        "sl": 1.0750,
+        "open_time": "2025-09-17 10:45:32",
+      },
+      {
+        "id": "12345679",
+        "name": "USDJPY",
+        "type": "sell",
+        "lot": 0.2,
+        "open_price": 142.50,
+        "current_price": 142.10,
+        "profit": 56.18,
+        "margin": 285.00,
+        "tp": 141.50,
+        "sl": 143.00,
+        "open_time": "2025-09-17 15:32:10",
+      }
+    ]
+  }
+}
+```
+
+```php Exemple de réponse pour un seul trade
+{
+  "status": "success",
+  "data": {
+    "trade": {
+      "id": "12345678",
+      "name": "EURUSD",
+      "type": "buy",
+      "lot": 0.1,
+      "open_price": 1.0785,
+      "current_price": 1.0805,
+      "profit": 20.00,
+      "margin": 107.85,
+      "tp": 1.0850,
+      "sl": 1.0750,
+      "open_time": "2025-09-17 10:45:32",
+      "swap": -0.12
+    }
+  }
+}
+```
+
+```php Exemple de code complet (PHP cURL)
+<?php
+$endpoint = 'https://api.cm5-markets.com/v3/trade-open';
+
+$payload = [
+  'api-key'    => 'votre_cle_api_ici',
+  'api-secret' => 'votre_cle_secrete_ici',
+  'object'     => 'trade',
+  'limit'      => 'All', // "All" ou ID spécifique comme "12345678"
+  'type'       => 'Réel', // "Réel" ou "Démo"
+];
+
+$ch = curl_init($endpoint);
+curl_setopt_array($ch, [
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_POST           => true,
+  CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+  CURLOPT_POSTFIELDS     => json_encode($payload, JSON_UNESCAPED_UNICODE),
+  CURLOPT_TIMEOUT        => 20,
+]);
+
+$response = curl_exec($ch);
+if ($response === false) {
+  $error = curl_error($ch);
+  curl_close($ch);
+  die('Erreur cURL: ' . $error);
+}
+$http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+// Affiche la réponse JSON renvoyée par l'API
+header('Content-Type: application/json; charset=utf-8');
+echo $response;
+?>
+```
