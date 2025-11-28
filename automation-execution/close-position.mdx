@@ -82,9 +82,9 @@ Cette action vous permet de fermer une position existante en spécifiant uniquem
 
 `"api-key"` et "api-secret" : vos clés d'authentification fournies par la plateforme.
 
-`"object"` : définit l'action à effectuer ("activation", "close" ou "update").
+`"object"` : définit l'action à effectuer ("close-advanced" ou "close").
 
-`"type"` : type de compte ("Réel" ou "Démo") - requis uniquement pour l'activation.
+`"type-close"` : Fermeture avancée ("perte"  , "profit" ou "all") - requis uniquement pour l'activation.
 
 `"id"` : identifiant de la position pour les opérations "close" et "update".
 
@@ -98,13 +98,8 @@ $endpoint = 'https://api.cm5-markets.com/v3/algorithme';
 $payload = [
   'api-key'    => 'votre_cle_api_ici',
   'api-secret' => 'votre_cle_secrete_ici',
-  'object'     => 'activation',
-  'type'       => 'Réel',
-  'lot'        => 0.1,
-  'mode'       => 'Buy ou Sell',
-  'symbol'     => 'EURUSD',
-  'tp'         => 1.0850,
-  'sl'         => 1.0750
+  'object'     => 'close',
+  'id'        => 12345678
 ];
 
 $ch = curl_init($endpoint);
