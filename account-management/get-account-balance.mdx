@@ -1,0 +1,94 @@
+Découvrez comment consulter le solde de votre compte réel ou de démonstration.
+
+Pour obtenir votre solde, une simple requête suffit. Assurez‑vous d’abord de disposer d’une clé API et d’une clé secrète valides et actives sur votre compte. Copiez ces clés, puis envoyez une requête POST au format JSON contenant ces informations, comme indiqué ci‑dessous. Dans votre requête, vous devez inclure ces clés API ainsi que l’objet de votre demande.
+
+### **Endpoint de la requête**
+
+Envoyez uniquement une requête POST au format JSON à l’URL suivante :
+
+```filename Endpoint de la requête
+https://api.cm5-markets.com/v3/balance
+```
+
+dd
+
+```
+
+{
+  "api-key": "votre_cle_api_ici",
+  "api-secret": "votre_cle_secrete_ici",
+  "object": "solde",
+  "get": "All"
+}
+```
+
+## **Explication des champs :**
+
+"api-key" : ta clé API publique, fournie par la plateforme.
+
+"api-secret" : ta clé secrète, associée à ton compte.
+
+"object" : le type de ressource que tu veux interroger (ici, le solde).
+
+"get" : le type de solde à récupérer ("Réel" ou "Démo" ou "All" selon le besoin).
+
+---
+
+## **Réponse attendue :**
+
+Vous recevrez une réponse au format JSON contenant le solde de votre compte Réel, Démo, ou les deux, selon les paramètres spécifiés dans votre requête.
+
+Exemple de réponse JSON
+
+content_copy
+
+```
+{
+  "status": "success",
+  "data": {
+    "solde": {
+      "Réel": 1250.75,
+      "Démo": 10000.00
+    }
+  }
+}
+```
+
+Exemple de code complet (PHP cURL)
+
+content_copy
+
+```
+<?php
+$endpoint = 'https://api.cm5-markets.com/v3/balance';
+
+$payload = [
+  'api-key'    => 'votre_cle_api_ici',
+  'api-secret' => 'votre_cle_secrete_ici',
+  'object'     => 'solde',
+  'get'        => 'All', // "Reel" | "Démo" | "All"
+];
+
+$ch = curl_init($endpoint);
+curl_setopt_array($ch, [
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_POST           => true,
+  CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+  CURLOPT_POSTFIELDS     => json_encode($payload, JSON_UNESCAPED_UNICODE),
+  CURLOPT_TIMEOUT        => 20,
+]);
+
+$response = curl_exec($ch);
+if ($response === false) {
+  $error = curl_error($ch);
+  curl_close($ch);
+  die('Erreur cURL: ' . $error);
+}
+$http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+// Affiche la réponse JSON renvoyée par l'API
+header('Content-Type: application/json; charset=utf-8');
+echo $response;
+?>
+```
