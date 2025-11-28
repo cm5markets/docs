@@ -21,10 +21,10 @@
             ]
           },
           {
-            "group": "Services API",
+            "group": "Gestion du Compte",
             "pages": [
-              "Robot",
-              "Solde"
+              "accourt-management/get-account-balance",
+              "account-management/get-account-info"
             ]
           },
           {
