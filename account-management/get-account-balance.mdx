@@ -1,4 +1,8 @@
-Découvrez comment consulter le solde de votre compte réel ou de démonstration.
+---
+description: "Découvrez comment consulter le solde de votre compte réel ou de démonstration."
+sidebarTitle: "Get account balance"
+title: "Récupération du solde du compte"
+---
 
 Pour obtenir votre solde, une simple requête suffit. Assurez‑vous d’abord de disposer d’une clé API et d’une clé secrète valides et actives sur votre compte. Copiez ces clés, puis envoyez une requête POST au format JSON contenant ces informations, comme indiqué ci‑dessous. Dans votre requête, vous devez inclure ces clés API ainsi que l’objet de votre demande.
 
@@ -10,9 +14,7 @@ Envoyez uniquement une requête POST au format JSON à l’URL suivante :
 https://api.cm5-markets.com/v3/balance
 ```
 
-dd
-
-```
+``` Exemple de payload JSON
 
 {
   "api-key": "votre_cle_api_ici",
@@ -24,13 +26,13 @@ dd
 
 ## **Explication des champs :**
 
-"api-key" : ta clé API publique, fournie par la plateforme.
+`"api-key"` : ta clé API publique, fournie par la plateforme.
 
-"api-secret" : ta clé secrète, associée à ton compte.
+`"api-secret"` : ta clé secrète, associée à ton compte.
 
-"object" : le type de ressource que tu veux interroger (ici, le solde).
+`"object"` : le type de ressource que tu veux interroger (ici, le solde).
 
-"get" : le type de solde à récupérer ("Réel" ou "Démo" ou "All" selon le besoin).
+`"get"` : le type de solde à récupérer ("Réel" ou "Démo" ou "All" selon le besoin).
 
 ---
 
@@ -38,11 +40,7 @@ dd
 
 Vous recevrez une réponse au format JSON contenant le solde de votre compte Réel, Démo, ou les deux, selon les paramètres spécifiés dans votre requête.
 
-Exemple de réponse JSON
-
-content_copy
-
-```
+```Exemple de réponse JSON
 {
   "status": "success",
   "data": {
@@ -54,11 +52,7 @@ content_copy
 }
 ```
 
-Exemple de code complet (PHP cURL)
-
-content_copy
-
-```
+```Exemple de code complet (PHP cURL)
 <?php
 $endpoint = 'https://api.cm5-markets.com/v3/balance';
 
