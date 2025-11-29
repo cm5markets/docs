@@ -23,8 +23,7 @@
           {
             "group": "Gestion du Compte",
             "pages": [
-              "account-management/get-account-balance",
-              "account-management/get-account-info"
+              "account-management/get-account-balance"
             ]
           },
           {
