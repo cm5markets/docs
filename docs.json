@@ -41,12 +41,6 @@
               "automation-execution/close-position",
               "automation-execution/modify-position"
             ]
-          },
-          {
-            "group": "API Reference",
-            "pages": [
-              "api-reference/introduction"
-            ]
           }
         ]
       }
@@ -56,6 +50,11 @@
         {
           "anchor": "Documentation",
           "href": "https://docs.cm5-markets.com/",
+          "icon": "book-open-cover"
+        },
+        {
+          "anchor": "API Reference",
+          "href": "https://sandbox.cm5-markets.com/api-reference",
           "icon": "book-open-cover"
         }
       ]
